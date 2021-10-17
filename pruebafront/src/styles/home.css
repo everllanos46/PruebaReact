@@ -2,3 +2,10 @@
     -webkit-text-stroke: 1px black;
     color: white;
 }
+.float-card{
+    position: fixed;
+    z-index: 3;
+    width: 55px;
+    height: 55px;
+    left: 300px
+}

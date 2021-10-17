@@ -6,7 +6,7 @@ import 'antd/dist/antd.min';
 import 'antd/dist/antd.min.css';
 import configureStore from "./redux/configureStore";
 
-const store = configureStore();
+const store = configureStore([]);
 
 ReactDOM.render(
   <React.StrictMode>

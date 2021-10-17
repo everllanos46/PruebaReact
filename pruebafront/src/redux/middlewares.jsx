@@ -7,7 +7,7 @@ export const Middlewares =
             (action) => {
                 let BASE_URL;
                 let headers;
-                debugger
+            
                 const { url, method, success, data, postProcessError, source } =
                     action.payload;
                 if (source == 'UniversalToken') {
@@ -27,28 +27,26 @@ export const Middlewares =
                     }
                 } else if (source == 'News') {
                     BASE_URL = url;
-                    headers = { 
-                        "X-Api-Key": constants.NEWS_TOKEN, 
-                        "Content-Type": "application/x-www-form-urlencoded"}
+                    headers = {
+                        "X-Api-Key": constants.NEWS_TOKEN,
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
                 }
-                debugger
-                if (method) {
-                    axios({
-                        method,
-                        url: BASE_URL,
-                        data: data != undefined ? data : null,
-                        headers: headers
-                    })
-                        .then((response) => {
-                            if (success) success(response.data);
-                        })
-                        .catch((err) => {
-                            if (!err.response) console.warn(err);
-                            if (err.response.data.error) {
-                                if (postProcessError) postProcessError(err.response.data.error);
-                            }
 
-                        });
-                }
+                axios({
+                    method,
+                    url: BASE_URL,
+                    data: data != undefined ? data : null,
+                    headers: headers
+                })
+                    .then((response) => {
+                        if (success) dispatch(success(response.data));
+                    })
+                    .catch((err) => {
+                        if (!err.response) console.warn(err);
+                        
+
+                    });
+
 
             }
