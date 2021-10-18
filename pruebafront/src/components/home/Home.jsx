@@ -38,7 +38,7 @@ const Home = () => {
     const [countryNews, setCountryNews] = useState([]);
     const [citySelect, setCitySelect] = useState("Valledupar");
     const [dataWeather, setDataWeather] = useState([]);
-    const [countrySend, setCountrySend] = useState("Colombia");
+    const [countrySend, setCountrySend] = useState("");
     const [countrySelectSelected, setCountrySelectSelected] = useState("");
 
     useEffect(() => {
@@ -125,7 +125,7 @@ const Home = () => {
                 }} sx={{ minWidth: 275 }}>
                     <CardContent  >
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                            {citySelect}, {countrySend}
+                            {citySelect}, {(countrySend=="")?countrieSelect:countrySend}
                         </Typography>
                         <Typography variant="h5" component="div">
                             {dataWeather.temp}°
