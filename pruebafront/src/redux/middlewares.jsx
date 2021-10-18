@@ -7,7 +7,7 @@ export const Middlewares =
             (action) => {
                 let BASE_URL;
                 let headers;
-            
+
                 const { url, method, success, data, postProcessError, source } =
                     action.payload;
                 if (source == 'UniversalToken') {
@@ -31,11 +31,11 @@ export const Middlewares =
                         "X-Api-Key": constants.NEWS_TOKEN,
                         "Content-Type": "application/x-www-form-urlencoded"
                     }
-                } else if (source == 'Weather'){
+                } else if (source == 'Weather') {
                     BASE_URL = url;
                     headers = {
-                        "Accept": "application/json",
-                         "Access-Control-Allow-Origin": "*"
+                        "content-type": "application/json; charset=utf-8",
+                        "keep-alive": "timeout=5"
                     }
                 }
 
@@ -50,7 +50,7 @@ export const Middlewares =
                     })
                     .catch((err) => {
                         if (!err.response) console.warn(err);
-                        
+
 
                     });
 

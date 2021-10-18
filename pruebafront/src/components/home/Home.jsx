@@ -29,46 +29,64 @@ const Home = () => {
     const [countries, setCountries] = useState([]);
     const [visibleSelect, setVisibleSelect] = useState(false);
     const [visibleSelectCities, setVisibleSelectCities] = useState(false);
-    const [countrieSelect, setCountrieSelect] = useState("");
+    const [countrieSelect, setCountrieSelect] = useState("Colombia");
     const [initialCountrieSelect, setInitialCountrie] = useState("");
     const [stateSelect, setStateSelect] = useState("");
     const [colNews, setColNews] = useState([]);
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [countryNews, setCountryNews] = useState([]);
-
+    const [citySelect, setCitySelect] = useState("Valledupar");
+    const [dataWeather, setDataWeather] = useState([]);
+    const [countrySend, setCountrySend] = useState("Colombia");
+    const [countrySelectSelected, setCountrySelectSelected] = useState("");
 
     useEffect(() => {
         dispatch(fetchUniversalToken((res) => {
             localStorage.setItem('token-universal', res.auth_token);
         }));
         dispatch(fetchAllCountries((res) => {
-            debugger
             setCountries(res);
         }));
         dispatch(fetchColNews((res) => {
             setColNews(res.articles);
         }));
-        dispatch(fetchColWeather());
+        dispatch(fetchColWeather(citySelect, countrySend,(res) => {
+            setDataWeather(res.data[0]);
+        }));
     }, []);
+
+    useEffect(() => {
+        setCountrySend(countrySelectSelected);
+    },[citySelect])
+
+    useEffect(() => {
+        dispatch(fetchColWeather(citySelect, countrySend,(res) => {
+            setDataWeather(res.data[0]);
+        }));
+    },[countrySend])
 
 
     useEffect(() => {
-        if (countrieSelect !== "") {
+        if (countrySelectSelected !== "") {
+            setVisibleSelect(false);
             searchCountry(countrieSelect);
-            dispatch(fetchStates(countrieSelect, (res) => {
+            dispatch(fetchStates(countrySelectSelected, (res) => {
                 setVisibleSelect(true);
                 setStates(res);
             }))
         }
         if (stateSelect !== "") {
+            setVisibleSelectCities(false);
             dispatch(fetchCities(stateSelect, (res) => {
                 setVisibleSelectCities(true);
                 setCities(res);
             }))
         }
 
-    }, [countrieSelect, stateSelect]);
+    }, [countrySelectSelected, stateSelect]);
+
+    
 
     useEffect(() => {
         if (initialCountrieSelect != "") {
@@ -106,22 +124,15 @@ const Home = () => {
                     }
                 }} sx={{ minWidth: 275 }}>
                     <CardContent  >
-
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                            Word of the Day
+                            {citySelect}, {countrySend}
                         </Typography>
                         <Typography variant="h5" component="div">
-                            a
+                            {dataWeather.temp}°
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            adjective
+                        {dataWeather.weather.description}
                         </Typography>
-                        <Typography variant="body2">
-                            well meaning and kindly.
-                            <br />
-                            {'"a benevolent smile"'}
-                        </Typography>
-
                     </CardContent>
                 </Card>
             </div>
@@ -161,7 +172,7 @@ const Home = () => {
                             showSearch
                             id="country_select"
                             style={{ width: '100%' }}
-                            onChange={setCountrieSelect}
+                            onChange={setCountrySelectSelected}
                             defaultValue={""}
                             filterOption={(input, option) =>
                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -204,6 +215,7 @@ const Home = () => {
                             id="city_select"
                             style={{ width: '100%' }}
                             defaultValue={""}
+                            onChange={setCitySelect}
                             disabled={!visibleSelectCities}
                             filterOption={(input, option) =>
                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
