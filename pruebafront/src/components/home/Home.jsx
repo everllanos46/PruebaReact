@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 //import Select from '@mui/material/Select';
 import { fetchUniversalToken, fetchAllCountries, fetchStates, fetchCities } from '../../redux/actions/universal/actions'
 import { fetchColNews, fetchCountryNews } from "../../redux/actions/news/actions";
+import { fetchColWeather} from "../../redux/actions/weather/actions";
 import '../../styles/home.css';
 import { withStyles } from '@material-ui/core/styles'
 import CircularProgress from '@mui/material/CircularProgress';
@@ -37,12 +38,6 @@ const Home = () => {
     const [countryNews, setCountryNews] = useState([]);
 
 
-    const useStyles = withStyles({
-        items: {
-            background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        }
-    });
-
     useEffect(() => {
         dispatch(fetchUniversalToken((res) => {
             localStorage.setItem('token-universal', res.auth_token);
@@ -54,6 +49,7 @@ const Home = () => {
         dispatch(fetchColNews((res) => {
             setColNews(res.articles);
         }));
+        dispatch(fetchColWeather());
     }, []);
 
 
@@ -77,7 +73,7 @@ const Home = () => {
     useEffect(() => {
         if (initialCountrieSelect != "") {
             dispatch(fetchCountryNews(initialCountrieSelect, (res) => {
-                setCountryNews(res);
+                setCountryNews(res.articles);
             }))
         }
     }, [initialCountrieSelect]);
@@ -97,7 +93,7 @@ const Home = () => {
 
     if (countries.length == 0) return <CircularProgress style={{
         marginTop: '10%',
-        marginLeft:'45%'
+        marginLeft: '45%'
     }} size={100} />;
 
     return (
@@ -225,35 +221,44 @@ const Home = () => {
                     </Grid>
                 </Grid>
                 <br />
-                <Grid container spacing={2} >
-                    {
-                        countryNews.length >= 0 && countryNews.map(item => (
-                            <Grid item xs={3}>
+                {
+                    ((countryNews.length == 0) ? (
+                        <CircularProgress style={{
+                            marginTop: '10%',
+                            marginLeft: '45%'
+                        }} size={100} />
 
-                                <Card sx={{ maxWidth: 345 }}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            component="img"
-                                            height="140"
-                                            image={item.urlToImage}
-                                            alt="green iguana"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                {item.title}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {item.description}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        ))
-                    }
+                    ) : (
+                        <Grid container spacing={2} >
+                            {
+                                countryNews.length >= 0 && countryNews.map(item => (
+                                    <Grid item xs={3}>
 
+                                        <Card sx={{ maxWidth: 345 }}>
+                                            <CardActionArea>
+                                                <CardMedia
+                                                    component="img"
+                                                    height="140"
+                                                    image={item.urlToImage}
+                                                    alt="green iguana"
+                                                />
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="h5" component="div">
+                                                        {item.title}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        {item.description}
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
+                    ))
+                }
 
-                </Grid>
             </div>
 
 

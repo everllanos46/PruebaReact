@@ -1,6 +1,7 @@
 .title-carousel{
     -webkit-text-stroke: 1px black;
     color: white;
+    opacity: 100;
 }
 .float-card{
     position: fixed;

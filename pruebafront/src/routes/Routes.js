@@ -3,14 +3,14 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Prueba from "../components/Prueba";
 import Home from "../components/home/Home";
-
+import SideBar from '../components/SideBar'
 function App() {
   return (
     <BrowserRouter>
-      <Dashboard />
+      <SideBar />
       <Switch>
         <Route exact path="/prueba" component={Prueba} />
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/" component={Home} />
       </Switch>
     </BrowserRouter>
   );

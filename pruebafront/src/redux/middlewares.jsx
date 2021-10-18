@@ -31,6 +31,12 @@ export const Middlewares =
                         "X-Api-Key": constants.NEWS_TOKEN,
                         "Content-Type": "application/x-www-form-urlencoded"
                     }
+                } else if (source == 'Weather'){
+                    BASE_URL = url;
+                    headers = {
+                        "Accept": "application/json",
+                         "Access-Control-Allow-Origin": "*"
+                    }
                 }
 
                 axios({
