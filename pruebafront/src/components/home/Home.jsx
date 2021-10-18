@@ -139,7 +139,7 @@ const Home = () => {
             <div >
                 <Grid container>
                     <Grid item xs={12}>
-                        <Carousel >
+                        <Carousel style={{ width: '80%', marginLeft:'10%', marginTop:'1%' }} >
                             {
                                 colNews.length >= 0 && colNews.map(item => (
                                     <Carousel.Item>
@@ -164,8 +164,8 @@ const Home = () => {
             </div>
             <br />
 
-            <div style={{ marginLeft: '15px' }}>
-                <Grid container spacing={2}>
+            <div style={{ marginLeft: '20%' }}>
+                <Grid container spacing={3}>
 
                     <Grid item xs={3} >
                         <Select
