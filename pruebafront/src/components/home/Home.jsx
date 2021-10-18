@@ -19,6 +19,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { fetchUniversalToken, fetchAllCountries, fetchStates, fetchCities } from '../../redux/actions/universal/actions'
 import { fetchColNews, fetchCountryNews } from "../../redux/actions/news/actions";
 import '../../styles/home.css';
+import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const Home = () => {
@@ -34,11 +36,19 @@ const Home = () => {
     const [cities, setCities] = useState([]);
     const [countryNews, setCountryNews] = useState([]);
 
+
+    const useStyles = withStyles({
+        items: {
+            background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        }
+    });
+
     useEffect(() => {
         dispatch(fetchUniversalToken((res) => {
             localStorage.setItem('token-universal', res.auth_token);
         }));
         dispatch(fetchAllCountries((res) => {
+            debugger
             setCountries(res);
         }));
         dispatch(fetchColNews((res) => {
@@ -66,9 +76,9 @@ const Home = () => {
 
     useEffect(() => {
         if (initialCountrieSelect != "") {
-            dispatch( initialCountrieSelect, (res) => {
+            dispatch(fetchCountryNews(initialCountrieSelect, (res) => {
                 setCountryNews(res);
-            })
+            }))
         }
     }, [initialCountrieSelect]);
 
@@ -85,13 +95,22 @@ const Home = () => {
 
     const countriesSelector = useSelector((state) => state.universal);
 
-    if (colNews.length == 0) return null;
+    if (countries.length == 0) return <CircularProgress style={{
+        marginTop: '10%',
+        marginLeft:'45%'
+    }} size={100} />;
 
     return (
         <>
             <div className="float-card">
-                <Card sx={{ minWidth: 275 }}>
-                    <CardContent>
+                <Card style={{
+                    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+                    "&:hover": {
+                        boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+                    }
+                }} sx={{ minWidth: 275 }}>
+                    <CardContent  >
+
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Word of the Day
                         </Typography>
@@ -106,13 +125,14 @@ const Home = () => {
                             <br />
                             {'"a benevolent smile"'}
                         </Typography>
+
                     </CardContent>
                 </Card>
             </div>
-            <div>
+            <div >
                 <Grid container>
-                    <Grid item xs={6} md={8} sm={6}>
-                        <Carousel>
+                    <Grid item xs={12}>
+                        <Carousel >
                             {
                                 colNews.length >= 0 && colNews.map(item => (
                                     <Carousel.Item>
@@ -155,7 +175,6 @@ const Home = () => {
                             {
                                 countries.length != 0 && countries.map(item => (
                                     <option value={item.country_name}>{item.country_name}</option>
-
                                 ))
                             }
 
@@ -208,7 +227,7 @@ const Home = () => {
                 <br />
                 <Grid container spacing={2} >
                     {
-                        colNews.length >= 0 && colNews.map(item => (
+                        countryNews.length >= 0 && countryNews.map(item => (
                             <Grid item xs={3}>
 
                                 <Card sx={{ maxWidth: 345 }}>
@@ -245,3 +264,4 @@ const Home = () => {
 };
 
 export default Home;
+

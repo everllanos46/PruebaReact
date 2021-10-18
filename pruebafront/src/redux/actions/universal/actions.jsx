@@ -5,7 +5,7 @@ export const fetchAllCountries =(onSuccess)=>({
         method: 'GET',
         headers: constants.UNIVERSAL_TOKEN,
         url: constants.UNIVERSAL_URL+'/api/countries/',
-        success:(res)=>(getCountries(res)),
+        success:onSuccess,
         source: 'Universal'
     }
 })
