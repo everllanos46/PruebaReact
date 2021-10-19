@@ -22,6 +22,7 @@ import { fetchColWeather} from "../../redux/actions/weather/actions";
 import '../../styles/home.css';
 import { withStyles } from '@material-ui/core/styles'
 import CircularProgress from '@mui/material/CircularProgress';
+import { fetchAllRecords, createRecord} from "../../redux/actions/record/actions";
 
 
 const Home = () => {
@@ -57,14 +58,27 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        setCountrySend(countrySelectSelected);
+        setCountrySend(countrySelectSelected);  
     },[citySelect])
 
     useEffect(() => {
+        debugger
         dispatch(fetchColWeather(citySelect, countrySend,(res) => {
+            debugger
             setDataWeather(res.data[0]);
         }));
+        if(countrySend!== ""){
+            let data ={
+                city: citySelect,
+                information: (citySelect+", "+countrySend+" : "+dataWeather.temp + ", "+dataWeather.weather.description)
+            }
+            dispatch(createRecord(data, (res)=>{
+                debugger
+            }));
+        }
     },[countrySend])
+
+    
 
 
     useEffect(() => {

@@ -37,6 +37,13 @@ export const Middlewares =
                         "content-type": "application/json; charset=utf-8",
                         "keep-alive": "timeout=5"
                     }
+                } else if(source =="MyRecord"){
+                    debugger
+                    BASE_URL = url;
+                    headers = {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    }
                 }
 
                 axios({
