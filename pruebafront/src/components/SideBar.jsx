@@ -25,7 +25,7 @@ const SideBar = () => {
 									</Button>
 								</Grid>
 								<Grid item xs={1}>
-									<Button startIcon={<HistoryOutlined />} component={Link} to={'/'} variant="text" style={{ marginLeft: '200px' }} color="inherit">
+									<Button startIcon={<HistoryOutlined />} component={Link} to={'/record'} variant="text" style={{ marginLeft: '200px' }} color="inherit">
 										Historial
 									</Button>
 								</Grid>
