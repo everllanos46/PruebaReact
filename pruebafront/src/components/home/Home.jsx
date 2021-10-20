@@ -58,15 +58,17 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
+        debugger
         setCountrySend(countrySelectSelected);  
+        
     },[citySelect])
 
     useEffect(() => {
         debugger
         dispatch(fetchColWeather(citySelect, countrySend,(res) => {
-            debugger
             setDataWeather(res.data[0]);
         }));
+        debugger
         if(countrySend!== ""){
             let data ={
                 city: citySelect,
@@ -84,7 +86,7 @@ const Home = () => {
     useEffect(() => {
         if (countrySelectSelected !== "") {
             setVisibleSelect(false);
-            searchCountry(countrieSelect);
+            searchCountry(countrySelectSelected);
             dispatch(fetchStates(countrySelectSelected, (res) => {
                 setVisibleSelect(true);
                 setStates(res);
@@ -247,7 +249,8 @@ const Home = () => {
                     </Grid>
                 </Grid>
                 <br />
-                {
+            </div>
+            {
                     ((countryNews.length == 0) ? (
                         <CircularProgress style={{
                             marginTop: '10%',
@@ -284,8 +287,6 @@ const Home = () => {
                         </Grid>
                     ))
                 }
-
-            </div>
 
 
 

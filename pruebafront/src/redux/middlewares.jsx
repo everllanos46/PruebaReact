@@ -38,7 +38,6 @@ export const Middlewares =
                         "keep-alive": "timeout=5"
                     }
                 } else if(source =="MyRecord"){
-                    debugger
                     BASE_URL = url;
                     headers = {
                         "Content-Type": "application/json",
