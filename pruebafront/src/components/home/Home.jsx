@@ -58,24 +58,20 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        debugger
         setCountrySend(countrySelectSelected);  
         
     },[citySelect])
 
-    useEffect(() => {
-        debugger
+    useEffect(() => { 
         dispatch(fetchColWeather(citySelect, countrySend,(res) => {
             setDataWeather(res.data[0]);
         }));
-        debugger
         if(countrySend!== ""){
             let data ={
                 city: citySelect,
                 information: (citySelect+", "+countrySend+" : "+dataWeather.temp + ", "+dataWeather.weather.description)
             }
             dispatch(createRecord(data, (res)=>{
-                debugger
             }));
         }
     },[countrySend])
